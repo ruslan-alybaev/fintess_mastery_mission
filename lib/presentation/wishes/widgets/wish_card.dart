@@ -31,15 +31,13 @@ class WishCard extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: Expanded(
-              child: Text(
-                name,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                ),
+            child: Text(
+              name,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w400,
+                color: Colors.white,
               ),
             ),
           ),
