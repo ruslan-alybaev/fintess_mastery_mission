@@ -221,7 +221,7 @@ class EditWishSheet extends StatelessWidget {
                             horizontal: 12.w,
                           ),
                           child: SvgPicture.asset(
-                            "assets/images/svgs/delete.24.svg",
+                            "assets/icons/delete.24.svg",
                             height: 24.h,
                             width: 24.w,
                           ),

@@ -73,7 +73,7 @@ class WishCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
-                        "assets/images/svgs/coins.24.svg",
+                        "assets/icons/coins.24.svg",
                         height: 16.h,
                         width: 16.w,
                       ),

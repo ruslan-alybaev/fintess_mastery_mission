@@ -126,7 +126,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
-                                    "assets/images/svgs/coins.24.svg",
+                                    "assets/icons/coins.24.svg",
                                     height: 24.h,  
                                     width: 24.w,  
                                   ),

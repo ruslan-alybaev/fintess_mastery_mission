@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             scaffoldBackgroundColor: const Color(0xff2d2d2d),
           ),
-          home: const OnboardingScreens(),
+          home: const WishesScreen(),
         );
       },
     );
