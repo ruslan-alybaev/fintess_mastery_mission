@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class WishCard extends StatelessWidget {
   final String name;
-  final int price;
-  final Function(int) onBuy;
+  final double price;
+  final Function(double) onBuy;
   
   const WishCard({
     required this.name,

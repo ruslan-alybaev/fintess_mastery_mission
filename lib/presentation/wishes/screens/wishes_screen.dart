@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:event_bus/event_bus.dart';
 import 'package:fitness_mastery_mission/event_bus/wish_added_event.dart';
 import 'package:fitness_mastery_mission/event_bus/wish_deleted_event.dart';
@@ -26,7 +28,7 @@ class _WishesScreenState extends State<WishesScreen> {
   final TextEditingController priceController = TextEditingController();
   final List<Wish> wishes = [];
   final List<Wish> purchasedWishes = [];
-  int currentBalance = 150;
+  double currentBalance = 150;
 
   @override
   void initState() {
@@ -559,7 +561,7 @@ class AddWishSheet extends StatelessWidget {
                     onPressed: () {
                       final newWish = Wish(
                         name: nameController.text,
-                        price: int.tryParse(priceController.text) ?? 0,
+                        price: double.tryParse(priceController.text) ?? 0,
                         purchaseDate: DateTime.now(),
                       );
                       final box = Hive.box<Wish>('wishes');

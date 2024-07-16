@@ -8,7 +8,7 @@ class Wish extends HiveObject {
   String name;
 
   @HiveField(1)
-  int price;
+  double price;
 
   @HiveField(2)
   DateTime? purchaseDate; 

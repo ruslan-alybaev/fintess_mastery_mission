@@ -332,7 +332,7 @@ class OnboardingThirdScreen extends StatelessWidget {
                                   width: 4.w,
                                 ),
                                 Text(
-                                  "13",
+                                  "13.0",
                                   style: TextStyle(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w400,

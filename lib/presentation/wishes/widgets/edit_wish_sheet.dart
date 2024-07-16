@@ -167,7 +167,7 @@ class EditWishSheet extends StatelessWidget {
                           onPressed: () {
                             final updatedWish = Wish(
                               name: nameController.text,
-                              price: int.tryParse(priceController.text) ?? 0,
+                              price: double.tryParse(priceController.text) ?? 0,
                               purchaseDate: DateTime.now(),
                             );
                             final box = Hive.box<Wish>('wishes');

@@ -18,7 +18,7 @@ class WishAdapter extends TypeAdapter<Wish> {
     };
     return Wish(
       name: fields[0] as String,
-      price: fields[1] as int,
+      price: fields[1] as double,
       purchaseDate: fields[2] as DateTime?,
     );
   }
