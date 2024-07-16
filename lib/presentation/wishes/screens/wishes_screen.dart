@@ -93,250 +93,253 @@ class _WishesScreenState extends State<WishesScreen> {
           ),
         ),
       ),
-      body: CustomScrollView(
-        slivers: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
-            child: Column(
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Row(
               children: [
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/icons/coins.40.svg"),
-                        SizedBox(width: 8.w),
-                        currentBalance == 0
-                            ? Expanded(
-                                child: Text(
-                                  "You have no coins. Complete challenges, earn coins, and reward yourself",
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                currentBalance.toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20.sp,
-                                  color: Colors.white,
-                                ),
+                    SvgPicture.asset("assets/icons/coins.40.svg"),
+                    SizedBox(width: 8.w),
+                    currentBalance == 0
+                        ? Expanded(
+                            child: Text(
+                              "You have no coins. Complete challenges, earn coins, and reward yourself",
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
                               ),
-                      ],
+                            ),
+                          )
+                        : Text(
+                            currentBalance.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                  ],
+                ),
+                const Spacer(),
+                SizedBox(
+                  height: 44.h,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HistoryScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff007AFF),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                    const Spacer(),
-                    SizedBox(
-                      height: 44.h,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const HistoryScreen(),
+                    child: Text(
+                      "History",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(height: 12.h),
+            ),
+            wishes.isEmpty
+                ? SliverToBoxAdapter(
+                  child: Text(
+                    "Your wishlist is empty. Think of something you really want and let it become your goal and motivation to work on yourself",
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+                : SliverList.builder(
+                  itemCount: wishes.length,
+                  itemBuilder: (context, index) {
+                    final wish = wishes[index];
+                    return Padding(
+                      padding: EdgeInsets.only(top: 12.h),
+                      child: GestureDetector(
+                        onTap: () {
+                          showCupertinoModalBottomSheet(
+                            context: context,
+                            builder: (context) => EditWishSheet(
+                              wish: wish,
                             ),
                           );
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff007AFF),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: Text(
-                          "History",
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 24.h),
-                wishes.isEmpty
-                    ? Text(
-                        "Your wishlist is empty. Think of something you really want and let it become your goal and motivation to work on yourself",
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                      )
-                    : Flexible(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: wishes.length,
-                          itemBuilder: (context, index) {
-                            final wish = wishes[index];
-                            return GestureDetector(
-                              onTap: () {
-                                showCupertinoModalBottomSheet(
+                        child: WishCard(
+                          name: wish.name,
+                          price: wish.price,
+                          onBuy: (price) {
+                            setState(() {
+                              if (currentBalance >= price) {
+                                showCupertinoDialog(
                                   context: context,
-                                  builder: (context) => EditWishSheet(
-                                    wish: wish,
-                                  ),
-                                );
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 12.h),
-                                child: WishCard(
-                                  name: wish.name,
-                                  price: wish.price,
-                                  onBuy: (price) {
-                                    setState(() {
-                                      if (currentBalance >= price) {
-                                        showCupertinoDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return Theme(
-                                              data: ThemeData.dark(),
-                                              child: CupertinoAlertDialog(
-                                                title: Text(
-                                                  "Purchase confirmation",
-                                                  style: TextStyle(
-                                                    fontSize: 17.sp,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                content: Text(
-                                                  "Are you sure you really want to spend coins on this wish?",
-                                                  style: TextStyle(
-                                                    fontSize: 13.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text(
-                                                      "Back",
-                                                      style: TextStyle(
-                                                        fontSize: 17.sp,
-                                                        fontWeight: FontWeight.w400,
-                                                        color:
-                                                            const Color(0xff0A84FF),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        wishes.removeAt(index);
-          
-                                                        purchasedWishes.add(wish);
-          
-                                                        currentBalance -= price;
-                                                        final box = Hive.box<Wish>(
-                                                            'wishes');
-                                                        box.delete(wish.key);
-          
-                                                        final eventBus = GetIt
-                                                            .instance<EventBus>();
-                                                        eventBus.fire(
-                                                            WishDeletedEvent(wish));
-          
-                                                        final purchasedBox =
-                                                            Hive.box<Wish>(
-                                                                'purchased_wishes');
-                                                        purchasedBox.add(wish);
-                                                        Navigator.pop(context);
-                                                      });
-                                                    },
-                                                    child: Text(
-                                                      "Confirm",
-                                                      style: TextStyle(
-                                                        fontSize: 17.sp,
-                                                        fontWeight: FontWeight.w600,
-                                                        color:
-                                                            const Color(0xff0A84FF),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                  builder: (BuildContext context) {
+                                    return Theme(
+                                      data: ThemeData.dark(),
+                                      child: CupertinoAlertDialog(
+                                        title: Text(
+                                          "Purchase confirmation",
+                                          style: TextStyle(
+                                            fontSize: 17.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        content: Text(
+                                          "Are you sure you really want to spend coins on this wish?",
+                                          style: TextStyle(
+                                            fontSize: 13.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              "Back",
+                                              style: TextStyle(
+                                                fontSize: 17.sp,
+                                                fontWeight: FontWeight.w400,
+                                                color:
+                                                    const Color(0xff0A84FF),
                                               ),
-                                            );
-                                          },
-                                        );
-                                      } else {
-                                        showCupertinoDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return Theme(
-                                              data: ThemeData.dark(),
-                                              child: CupertinoAlertDialog(
-                                                title: Text(
-                                                  "Not enough coins",
-                                                  style: TextStyle(
-                                                    fontSize: 17.sp,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                content: Text(
-                                                  "Not enough coins to buy the wish. Complete challenges and earn more.",
-                                                  style: TextStyle(
-                                                    fontSize: 13.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text(
-                                                      "Back",
-                                                      style: TextStyle(
-                                                        fontSize: 17.sp,
-                                                        fontWeight: FontWeight.w400,
-                                                        color:
-                                                            const Color(0xff0A84FF),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text(
-                                                      "Challenges",
-                                                      style: TextStyle(
-                                                        fontSize: 17.sp,
-                                                        fontWeight: FontWeight.w600,
-                                                        color:
-                                                            const Color(0xff0A84FF),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                wishes.removeAt(index);
+                                
+                                                purchasedWishes.add(wish);
+                                
+                                                currentBalance -= price;
+                                                final box = Hive.box<Wish>(
+                                                    'wishes');
+                                                box.delete(wish.key);
+                                
+                                                final eventBus = GetIt
+                                                    .instance<EventBus>();
+                                                eventBus.fire(
+                                                    WishDeletedEvent(wish));
+                                
+                                                final purchasedBox =
+                                                    Hive.box<Wish>(
+                                                        'purchased_wishes');
+                                                purchasedBox.add(wish);
+                                                Navigator.pop(context);
+                                              });
+                                            },
+                                            child: Text(
+                                              "Confirm",
+                                              style: TextStyle(
+                                                fontSize: 17.sp,
+                                                fontWeight: FontWeight.w600,
+                                                color:
+                                                    const Color(0xff0A84FF),
                                               ),
-                                            );
-                                          },
-                                        );
-                                      }
-                                    });
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
                                   },
-                                ),
-                              ),
-                            );
+                                );
+                              } else {
+                                showCupertinoDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Theme(
+                                      data: ThemeData.dark(),
+                                      child: CupertinoAlertDialog(
+                                        title: Text(
+                                          "Not enough coins",
+                                          style: TextStyle(
+                                            fontSize: 17.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        content: Text(
+                                          "Not enough coins to buy the wish. Complete challenges and earn more.",
+                                          style: TextStyle(
+                                            fontSize: 13.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              "Back",
+                                              style: TextStyle(
+                                                fontSize: 17.sp,
+                                                fontWeight: FontWeight.w400,
+                                                color:
+                                                    const Color(0xff0A84FF),
+                                              ),
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              "Challenges",
+                                              style: TextStyle(
+                                                fontSize: 17.sp,
+                                                fontWeight: FontWeight.w600,
+                                                color:
+                                                    const Color(0xff0A84FF),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                            });
                           },
                         ),
                       ),
-                SizedBox(height: 10.h),
-                const AddButton(),
-              ],
+                    );
+                  },
+                ),
+            SliverToBoxAdapter(
+              child: SizedBox(height: 10.h),
             ),
-          ),
-        ],
+            SliverToBoxAdapter(
+              child: AddButton(),
+            ),
+          ],
+        ),
       ),
     );
   }

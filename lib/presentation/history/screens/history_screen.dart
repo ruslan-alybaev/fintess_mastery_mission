@@ -17,10 +17,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   void initState() {
     super.initState();
-    // Открываем Box для purchased_wishes
     Hive.openBox<Wish>('purchased_wishes').then((box) {
       setState(() {
-        // Загружаем все элементы из Box в список purchasedWishes
         purchasedWishes = box.values.toList();
       });
     });
