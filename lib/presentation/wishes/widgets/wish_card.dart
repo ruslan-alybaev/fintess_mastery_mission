@@ -49,6 +49,7 @@ class WishCard extends StatelessWidget {
               onBuy(price);
             },
             child: Container(
+              width: 80.w,
               decoration: BoxDecoration(
                 color: const Color(0xff2D2D2D),
                 borderRadius: BorderRadius.only(

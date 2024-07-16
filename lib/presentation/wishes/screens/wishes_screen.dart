@@ -132,9 +132,7 @@ class _WishesScreenState extends State<WishesScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HistoryScreen(
-                            purchasedWishes: purchasedWishes,
-                          ),
+                          builder: (context) => const HistoryScreen(),
                         ),
                       );
                     },
@@ -228,20 +226,27 @@ class _WishesScreenState extends State<WishesScreen> {
                                               ),
                                               TextButton(
                                                 onPressed: () {
-                                                  currentBalance -= price;
-                                                  wishes.removeAt(index);
+                                                  setState(() {
+                                                    wishes.removeAt(index);
 
-                                                  purchasedWishes.add(wish);
+                                                    purchasedWishes.add(wish);
 
-                                                  final box =
-                                                      Hive.box<Wish>('wishes');
-                                                  box.delete(wish.key);
+                                                    currentBalance -= price;
+                                                    final box = Hive.box<Wish>(
+                                                        'wishes');
+                                                    box.delete(wish.key);
 
-                                                  final eventBus = GetIt
-                                                      .instance<EventBus>();
-                                                  eventBus.fire(
-                                                      WishDeletedEvent(wish));
-                                                  Navigator.pop(context);
+                                                    final eventBus = GetIt
+                                                        .instance<EventBus>();
+                                                    eventBus.fire(
+                                                        WishDeletedEvent(wish));
+
+                                                    final purchasedBox =
+                                                        Hive.box<Wish>(
+                                                            'purchased_wishes');
+                                                    purchasedBox.add(wish);
+                                                    Navigator.pop(context);
+                                                  });
                                                 },
                                                 child: Text(
                                                   "Confirm",

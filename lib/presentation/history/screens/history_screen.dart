@@ -2,11 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fitness_mastery_mission/hive/wish.dart';
+import 'package:hive/hive.dart';
 
-class HistoryScreen extends StatelessWidget {
-  final List<Wish> purchasedWishes;
+class HistoryScreen extends StatefulWidget {
+  const HistoryScreen({Key? key}) : super(key: key);
 
-  const HistoryScreen({super.key, required this.purchasedWishes});
+  @override
+  _HistoryScreenState createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+  List<Wish> purchasedWishes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Открываем Box для purchased_wishes
+    Hive.openBox<Wish>('purchased_wishes').then((box) {
+      setState(() {
+        // Загружаем все элементы из Box в список purchasedWishes
+        purchasedWishes = box.values.toList();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
